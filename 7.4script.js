@@ -2,55 +2,71 @@
 // Определить иерархию электроприборов. Включить некоторые в розетку. Посчитать потребляемую мощность. 
 // Таких приборов должно быть, как минимум, два (например, настольная лампа и компьютер). Выбрав прибор, подумайте, какими свойствами он обладает.
 
-function ElectricPower(name, power, on){
-    this.power = power,
-    this.name = name,
-    this.divice = 'Electrical',
-    this.on = on,
-    this.onOff = function(){
-    if(this.on == true) {
-      console.log(`${this.name} включен`)
-    } else {
-      console.log(`${this.name} отключен`)
-    } 
-  }
+function ElectricalAppliance(name, power) {
+this.name = name;
+this.power = power;
+this.isPlugged = false;
 }
 
-ElectricPower.prototype.getPower = function(name, power, on){
-      if(this.on == true){
-        console.log(`Потребляемая мощность ${this.name}а равна ${this.power}W`)
-      } else {
-      console.log(`Чтобы узнать потребляемую мощность ${this.name}а подключите в сеть`)
-    }
+// метод, который определяет прибор как включенный в розетку
+ElectricalAppliance.prototype.plugIn = function () {
+console.log(this.name + " is plugged!");
+this.isPlugged = true;
+};
+
+// метод, который определяет прибор как выключеный из розетки
+ElectricalAppliance.prototype.unplug = function () {
+console.log(this.name + " is unplugged!");
+this.isPlugged = false;
+};
+
+// метод, который определяет потребляемую мощность
+ElectricalAppliance.prototype.getPower = function () {
+    console.log(this.name + " consumes " + this.power + " W")
 }
 
-function GadgetProperty(name, power, on, color){
-    this.color = function(){
-        console.log(`Цвет ${name}а ${color}`)
-    }    
-    this.power = power,
-    this.name = name,
-    this.divice = 'Electrical',
-    this.on = on,
-    this.onOff = function(){
-      if(this.on == true) {
-      console.log(`${this.name} включен`)
-      } else {
-      console.log(`${this.name} отключен`)
-    } 
-  }
+
+// Прибор 1
+function Lamp(name, brand, power, bulbType) {
+this.name = name;
+this.brand = brand;
+this.power = power;
+this.bulbType = bulbType;
+this.isPlugged = true;
 }
 
-GadgetProperty.prototype = new ElectricPower()
+Lamp.prototype = new ElectricalAppliance();
 
-const laptop = new GadgetProperty('Ноутбук', '200', true, 'Белый');
-const tablet = new GadgetProperty('Планшет', '100', false, 'Черный');
+// Прибор 2
+function Computer(name, brand, power, type, functionality) {
+this.name = name;
+this.brand = brand;
+this.power = power;
+this.type = type;
+this.functionality = functionality;
+this.isPlugged = false;
+}
 
-laptop.onOff()
-laptop.getPower()
-tablet.onOff()
-tablet.getPower()
-laptop.color() 
-tablet.color()
-// console.log(laptop)
-// console.log(tablet)
+Computer.prototype = new ElectricalAppliance();
+
+// экземпляр лампы
+const tableLamp = new Lamp("Table lamp", "Xiaomi", 5, "LED");
+
+// экземпляр компьютера
+const homePC = new Computer("Table PC", "Intel", 120, "stationary", "for work");
+
+// отключить лампу из розетки
+tableLamp.unplug();
+
+// включить homePC в розетку
+homePC.plugIn();
+
+// потребляемая мощность tableLamp
+tableLamp.getPower();
+
+// потребляемая мощность homePC
+homePC.getPower();
+
+// результат
+console.log(homePC)
+console.log(tableLamp)
