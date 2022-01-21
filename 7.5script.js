@@ -3,48 +3,70 @@
 // Определить иерархию электроприборов. Включить некоторые в розетку. Посчитать потребляемую мощность. 
 // Таких приборов должно быть, как минимум, два (например, настольная лампа и компьютер). Выбрав прибор, подумайте, какими свойствами он обладает.
 
-class ElectricPower {
-    constructor (name, power, on) {
-    this.power = power,
-    this.name = name,
-    this.divice = 'Electrical',
-    this.on = on,
-    this.onOff = function(){
-    if(this.on == true) {
-      console.log(`${this.name} включен`)
-    } else {
-      console.log(`${this.name} отключен`)
-    } 
-  }
+class ElectricalAppliance {
+constructor(name, power){
+this.name = name;
+this.power = power;
+this.isPlugged = false;
+}
+// метод, который определяет прибор как включенный в розетку
+plugIn() {
+console.log(this.name + " is plugged!");
+this.isPlugged = true;
 }
 
-getPower = function(name, power, on){
-      if(this.on == true){
-        console.log(`Потребляемая мощность ${this.name}а равна ${this.power}W`)
-      } else {
-      console.log(`Чтобы узнать потребляемую мощность ${this.name}а подключите в сеть`)
-    }     
-    }
+// метод, который определяет прибор как выключеный из розетки
+unplug() {
+console.log(this.name + " is unplugged!");
+this.isPlugged = false;
 }
 
-class GadgetProperty extends ElectricPower {
-  constructor (color, name, power, on) {
-    super (name, power, on)
-    this.color = function(){
-        console.log(`Цвет ${name}а ${color}`)
-    } 
-  }
+// метод, который определяет потребляемую мощность
+getPower = function () {
+    console.log(this.name + " consumes " + this.power + " W")
 }
 
+}
 
-const notebook = new GadgetProperty('Белый', 'Ноутбук', '200', true);
-const tablet = new GadgetProperty('Черный', 'Планшет', '100', false);
+// Прибор 1
+class Lamp extends ElectricalAppliance {
+constructor (name, brand, power, bulbType) {
+super(name, power);
+this.brand = brand;
+this.bulbType = bulbType;
+this.isPlugged = true;
+}
+}
 
-notebook.onOff()
-notebook.getPower()
-tablet.onOff()
-tablet.getPower()
-notebook.color() 
-tablet.color()
-// console.log(notebook)
-// console.log(tablet)
+// Прибор 2
+class Computer extends ElectricalAppliance {
+constructor(name, brand, power, type, functionality) {
+super(name, power);
+this.brand = brand;
+this.type = type;
+this.functionality = functionality;
+this.isPlugged = false;
+}
+}
+
+// экземпляр лампы
+const tableLamp = new Lamp("Table lamp", "Xiaomi", 5, "LED");
+
+// экземпляр компьютера
+const homePC = new Computer("Table PC", "Intel", 120, "stationary", "for work");
+
+// отключить лампу из розетки
+tableLamp.unplug();
+
+// включить homePC в розетку
+homePC.plugIn();
+
+// потребляемая мощность tableLamp
+tableLamp.getPower();
+
+// потребляемая мощность homePC
+homePC.getPower();
+
+// результат
+console.log(homePC)
+console.log(tableLamp)
